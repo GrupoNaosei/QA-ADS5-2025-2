@@ -1,4 +1,4 @@
-import unicodedata
+"""import unicodedata
 
 def is_palindrome(text: str) -> bool:
     """
@@ -17,3 +17,4 @@ def is_palindrome(text: str) -> bool:
     # Mantém apenas alfanuméricos e aplica casefold
     filtrado = "".join(ch for ch in sem_acentos if ch.isalnum()).casefold()
     return filtrado == filtrado[::-1]
+    """

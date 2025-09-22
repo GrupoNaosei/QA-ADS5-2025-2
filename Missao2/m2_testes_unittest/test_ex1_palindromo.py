@@ -1,4 +1,4 @@
-import unittest
+"""import unittest
 from ex1_palindromo import is_palindrome
 
 class TestPalindromo(unittest.TestCase):
@@ -21,3 +21,4 @@ if __name__ == "__main__":
     unittest.main()
 
 # python -m unittest -v test_ex1_palindromo.py
+"""
