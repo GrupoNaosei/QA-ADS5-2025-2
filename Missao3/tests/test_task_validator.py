@@ -21,10 +21,11 @@ def test_validate_task_sem_titulo():
 # Cenário 3: Teste de falha quando o título está vazio
 def test_validate_task_com_titulo_vazio():
     """Verifica se um ValueError é lançado para um título vazio ou apenas com espaços."""
-    tarefa_invalida = {"prioridade": "baixa"}
+    tarefa_invalida = {"titulo": "    " ,"prioridade": "baixa"}
     with pytest.raises(ValueError) as excinfo:
         validate_task(tarefa_invalida)
-    assert "titulo da tarefa nao pode ser vazio" in str(excinfo.value)
+    # Alterando a mensagem esperada para gerar um erro no pytest
+    assert "titulo da tarefa nao pode ser vazio" in str(excinfo.value)  # Mensagem que não existe
 
 # Cenário 4: Teste de falha quando a prioridade está faltando
 def test_validate_task_sem_prioridade():
@@ -41,27 +42,3 @@ def test_validate_task_com_prioridade_invalida():
     with pytest.raises(ValueError) as excinfo:
         validate_task(tarefa_invalida)
     assert "Prioridade 'urgente' invalida" in str(excinfo.value)
-
-
-
-"""
-***Explicação:
-*   **`import pytest`**: Importamos a biblioteca Pytest.
-*   **`from src.task_validator import validate_task`**: Importamos nossa função a ser testada.
-*   **`def test_...():`**: O Pytest automaticamente descobre funções que começam com `test_` como sendo testes.
-*   **`assert`**: Usamos a palavra-chave `assert` para verificar se uma condição é verdadeira. Se for falsa, o teste falha.
-*   **`with pytest.raises(ValueError):`**: Este é um recurso poderoso do Pytest. Ele diz: "Eu espero que o código dentro deste bloco `with` lance uma exceção do tipo `ValueError`". O teste passará se a exceção ocorrer, e falhará se não ocorrer.
-*   **`as excinfo`**: Capturamos os detalhes da exceção para poder inspecionar a mensagem de erro, garantindo que ela seja informativa.
-
----
-
-### **Passo 2: Executar os Testes Localmente**
-
-Antes de automatizar, vamos garantir que tudo funciona na máquina.
-
-**1. Instale o Pytest**
-AbrA o terminal, navegar até a pasta raiz `projeto_de_testes/` e instalar o Pytest:
-
-bash
-pip install pytest
-"""
