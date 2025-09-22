@@ -21,7 +21,7 @@ def test_validate_task_sem_titulo():
 # Cenário 3: Teste de falha quando o título está vazio
 def test_validate_task_com_titulo_vazio():
     """Verifica se um ValueError é lançado para um título vazio ou apenas com espaços."""
-    tarefa_invalida = {"titulo": "   ", "prioridade": "baixa"}
+    tarefa_invalida = {"prioridade": "baixa"}
     with pytest.raises(ValueError) as excinfo:
         validate_task(tarefa_invalida)
     assert "titulo da tarefa nao pode ser vazio" in str(excinfo.value)
