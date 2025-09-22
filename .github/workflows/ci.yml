@@ -17,7 +17,7 @@ jobs:
     # Estratégia para rodar os testes em múltiplas versões do Python
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10"]
+        python-version: ["3.8", "3.9", "3.10", "3.12"]
 
     steps:
       # Passo 1: Clona o repositório para a máquina virtual
