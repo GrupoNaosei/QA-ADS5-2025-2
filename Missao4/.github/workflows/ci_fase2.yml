@@ -29,4 +29,5 @@ jobs:
           pip install -r requirements.txt
 
       - name: Rodar os testes
+        uses: tests/test_core.py
         run: pytest
