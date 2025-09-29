@@ -1,4 +1,3 @@
-# .github/workflows/ci_fase2.yml é
 name: CI_fase de Testes Python
 
 on:
@@ -23,8 +22,8 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
+      - name: Instalar dependências
         run: pip install -r Missao4/requirements.txt
 
       - name: Rodar os testes
-        run: Missao4/tests/pytest
+        run: pytest Missao4/tests
