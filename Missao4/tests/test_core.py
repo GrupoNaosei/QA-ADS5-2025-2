@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 from datetime import date
-from src.core import Expense, ExpenseRepository
+from src.core import Expense, ExpenseRepository, FinancialManager
 
 def test_criar_despesa_valida():
     """Testa a criação de uma despesa com dados válidos."""
@@ -74,3 +74,42 @@ def test_adicionar_multiplas_despesas_incrementa_id(repo):
     assert len(repo.get_all()) == 2
     assert despesa_2 is not None
     assert despesa_2.description == "Livro"
+# ... (testes anteriores continuam aqui) ...
+from src.core import FinancialManager
+
+def test_financial_manager_adiciona_despesa(mocker):
+    """Testa se o FinancialManager chama corretamente o método add do repositório."""
+    # Cria um mock do repositório
+    mock_repo = mocker.MagicMock(spec=ExpenseRepository)
+    manager = FinancialManager(repository=mock_repo)
+    
+    expense_data = {"description": "Jantar", "amount": 120.0, "category": "Alimentação", "date": date.today()}
+    manager.add_expense(expense_data)
+    
+    # Verifica se o método 'add' do mock foi chamado exatamente uma vez com os dados corretos
+    mock_repo.add.assert_called_once_with(expense_data)
+
+def test_get_total_expenses_com_varias_despesas(mocker):
+    """Testa o cálculo do total de despesas, usando um repositório mockado."""
+    mock_repo = mocker.MagicMock(spec=ExpenseRepository)
+    # Configura o valor de retorno do mock
+    mock_repo.get_all.return_value = [
+        Expense(id=1, description="abc", amount=10.50, category="c", date=date.today()),
+        Expense(id=2, description="bca", amount=20.00, category="c", date=date.today()),
+        Expense(id=3, description="cba", amount=0.50, category="c", date=date.today()),
+    ]
+    
+    manager = FinancialManager(repository=mock_repo)
+    total = manager.get_total_expenses()
+    
+    assert total == 31.00
+
+def test_get_total_expenses_sem_despesas(mocker):
+    """Testa o cálculo do total quando não há despesas."""
+    mock_repo = mocker.MagicMock(spec=ExpenseRepository)
+    mock_repo.get_all.return_value = [] # Retorna uma lista vazia
+    
+    manager = FinancialManager(repository=mock_repo)
+    total = manager.get_total_expenses()
+    
+    assert total == 0.0
