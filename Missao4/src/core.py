@@ -56,3 +56,12 @@ class FinancialManager:
         """Calcula o valor total de todas as despesas."""
         all_expenses = self._repository.get_all()
         return sum(expense.amount for expense in all_expenses)
+        
+    def categorize_expense_by_cost(self, expense: Expense) -> str:
+        """Categoriza uma despesa como 'Baixo', 'Médio' ou 'Alto' custo."""
+        if expense.amount <= 20.0:
+            return "Baixo"
+        elif 20.0 < expense.amount <= 100.0:
+            return "Médio"
+        else:
+            return "Alto"

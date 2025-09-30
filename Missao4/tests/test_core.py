@@ -113,3 +113,23 @@ def test_get_total_expenses_sem_despesas(mocker):
     total = manager.get_total_expenses()
     
     assert total == 0.0
+
+@pytest.mark.parametrize(
+    "amount, expected_category",
+    [
+        (15.0, "Baixo"),     # Teste 1: Custo baixo
+        (20.0, "Baixo"),     # Teste 2: Custo baixo (limite)
+        (20.01, "Médio"),    # Teste 3: Custo médio (acima do limite)
+        (100.0, "Médio"),    # Teste 4: Custo médio (limite)
+        (100.01, "Alto"),    # Teste 5: Custo alto (acima do limite)
+        (5000.0, "Alto"),    # Teste 6: Custo alto
+    ]
+)
+def test_categorize_expense_by_cost(amount, expected_category):
+    """Testa a categorização por custo com diferentes valores."""
+    manager = FinancialManager(repository=None) # Não precisamos de repo aqui
+    expense = Expense(id=1, description="Teste", amount=amount, category="cat", date=date.today())
+    
+    result = manager.categorize_expense_by_cost(expense)
+    
+    assert result == expected_category
