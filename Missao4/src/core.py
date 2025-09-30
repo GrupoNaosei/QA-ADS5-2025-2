@@ -15,7 +15,7 @@ class Expense(BaseModel):
         if not v.strip():
             raise ValueError("A categoria não pode ser vazia")
         return v
-
+#sim
 class ExpenseRepository:
     """Gerencia uma coleção de despesas em memória."""
     def __init__(self):
