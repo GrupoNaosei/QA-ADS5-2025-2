@@ -56,7 +56,7 @@ class FinancialManager:
         """Calcula o valor total de todas as despesas."""
         all_expenses = self._repository.get_all()
         return sum(expense.amount for expense in all_expenses)
-        
+
     def categorize_expense_by_cost(self, expense: Expense) -> str:
         """Categoriza uma despesa como 'Baixo', 'Médio' ou 'Alto' custo."""
         if expense.amount <= 20.0:
@@ -65,3 +65,23 @@ class FinancialManager:
             return "Médio"
         else:
             return "Alto"
+
+import requests
+
+def get_expense_in_usd(expense: Expense) -> float | None:
+    """
+    Converte o valor de uma despesa para USD usando uma API externa.
+    A API fictícia é: https://api.exchangerate-api.com/v4/latest/BRL
+    """
+    try:
+        response = requests.get("https://api.exchangerate-api.com/v4/latest/BRL")
+        response.raise_for_status()  # Lança uma exceção para erros HTTP (4xx ou 5xx)
+        
+        data = response.json()
+        usd_rate = data["rates"]["USD"]
+        
+        return round(expense.amount * usd_rate, 2)
+    except requests.exceptions.RequestException:
+        return None
+    except (KeyError, TypeError):
+        return None # Caso a resposta da API venha em um formato inesperado

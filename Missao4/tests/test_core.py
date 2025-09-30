@@ -133,3 +133,59 @@ def test_categorize_expense_by_cost(amount, expected_category):
     result = manager.categorize_expense_by_cost(expense)
     
     assert result == expected_category
+
+
+import responses
+from src.core import get_expense_in_usd
+
+@responses.activate
+def test_get_expense_in_usd_sucesso():
+    """Testa a conversão para USD quando a API responde com sucesso."""
+    # 1. Mock da resposta da API
+    responses.add(
+        responses.GET,
+        "https://api.exchangerate-api.com/v4/latest/BRL",
+        json={"rates": {"USD": 0.20}}, # Cotação fictícia: 1 BRL = 0.20 USD
+        status=200
+    )
+    
+    expense = Expense(id=1, description="Teste", amount=100.0, category="cat", date=date.today())
+    
+    # 2. Executa a função
+    usd_amount = get_expense_in_usd(expense)
+    
+    # 3. Verifica o resultado
+    assert usd_amount == 20.00 # 100.0 * 0.20
+
+@responses.activate
+def test_get_expense_in_usd_api_falha():
+    """Testa o comportamento quando a API retorna um erro 500."""
+    # Mock de uma resposta de erro
+    responses.add(
+        responses.GET,
+        "https://api.exchangerate-api.com/v4/latest/BRL",
+        status=500
+    )
+    
+    expense = Expense(id=1, description="Teste", amount=100.0, category="cat", date=date.today())
+    
+    usd_amount = get_expense_in_usd(expense)
+    
+    assert usd_amount is None
+
+@responses.activate
+def test_get_expense_in_usd_formato_invalido():
+    """Testa o comportamento quando a API retorna um JSON inesperado."""
+    # Mock de uma resposta com formato inválido (faltando a chave 'rates')
+    responses.add(
+        responses.GET,
+        "https://api.exchangerate-api.com/v4/latest/BRL",
+        json={"invalid_key": "some_value"},
+        status=200
+    )
+    
+    expense = Expense(id=1, description="Teste", amount=100.0, category="cat", date=date.today())
+    
+    usd_amount = get_expense_in_usd(expense)
+    
+    assert usd_amount is None
