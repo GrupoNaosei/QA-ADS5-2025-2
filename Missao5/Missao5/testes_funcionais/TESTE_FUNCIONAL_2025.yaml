@@ -1,0 +1,46 @@
+version: 1
+type: selenium
+name: TESTE_FUNCIONAL_2025
+description: Teste funcional do fluxo completo de compra de passagens
+execution:
+  - executor: selenium
+    iterations: 1
+    scenario: fluxo_compra
+scenarios:
+  fluxo_compra:
+    requests:
+      - url: https://blazedemo.com/
+        actions:
+          - open: https://blazedemo.com/
+          - click:
+              locator: select[name="fromPort"]
+          - select:
+              locator: select[name="fromPort"]
+              value: "Boston"
+          - select:
+              locator: select[name="toPort"]
+              value: "London"
+          - click:
+              locator: input[type=\"submit\"]
+          - click:
+              locator: input[type=\"submit\"]
+          - type:
+              locator: input#inputName
+              text: "Teste QA ADS5"
+          - type:
+              locator: input#address
+              text: "Rua dos Testes, 123"
+          - type:
+              locator: input#city
+              text: "São Paulo"
+          - type:
+              locator: input#state
+              text: "SP"
+          - type:
+              locator: input#zipCode
+              text: "04567-000"
+          - type:
+              locator: input#creditCardNumber
+              text: "1234567812345678"
+          - click:
+              locator: input[type=\"submit\"]

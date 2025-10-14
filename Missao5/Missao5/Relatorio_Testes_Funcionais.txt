@@ -1,0 +1,33 @@
+
+1. Objetivo
+Avaliar o desempenho e estabilidade do sistema sob carga, verificando o comportamento com multiplos usuarios simultaneos acessando o site BlazeDemo.
+
+
+2. Metodologia
+Dois testes de performance foram realizados:
+- Teste 1: 10 usuarios simultaneos
+- Teste 2: 40 usuarios simultaneos
+Com duracao de 2 minutos e ramp-up de 5 minutos.
+
+
+
+3. Resultados
+TESTE-PERFORMANCE-1 | 10 usuarios | Duração 2 min | Ramp-Up 5 min | Tempo Médio (s): 1.12 | Erros: 0% | Throughput: 7.8 | Status: PASS
+TESTE-PERFORMANCE-2 | 40 usuarios | Duração 2 min | Ramp-Up 5 min | Tempo Médio (s): 3.74 | Erros: 0.3% | Throughput: 28.6 | Status: PASS
+
+
+
+4. Analise
+O site manteve estabilidade nos dois cenarios. Houve leve aumento no tempo de resposta com 40 usuarios, mas sem falhas significativas. O sistema demonstrou boa capacidade de resposta e escalabilidade.
+
+
+5. Conclusao
+O desempenho geral é satisfatorio e o sistema suporta ate 40 usuarios simultaneos sem degradacao critica.
+
+
+6. Participantes
+Matheus Vieira Batista Neves	RA 79027
+Adrielyson Barbosa da Silva	RA 79092
+Raissa Carvalho	RA 82612
+Gustavo Cardoso Vieira da Cruz	RA 70049
+

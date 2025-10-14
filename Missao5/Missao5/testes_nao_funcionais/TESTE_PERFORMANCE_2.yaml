@@ -1,0 +1,15 @@
+version: 1
+type: jmeter
+name: TESTE_PERFORMANCE_2
+description: Teste de performance com 40 usuarios simultaneos
+execution:
+  - executor: jmeter
+    concurrency: 40
+    ramp-up: 300
+    hold-for: 120
+    scenario: login_carga
+scenarios:
+  login_carga:
+    requests:
+      - url: https://blazedemo.com/
+        method: GET
